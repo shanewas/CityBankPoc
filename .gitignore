@@ -1,0 +1,8 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+chrome/
+*.py[cod]
+*$py.class
+
+# Script
+aiw-cli.py

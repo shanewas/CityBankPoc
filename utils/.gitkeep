@@ -1,0 +1,28 @@
+# -*- coding: utf-8 -*-
+"""AIW Base Framework
+
+-*- utils directory -*-
+
+This directory is for storing all functional files that consist of common methods
+to be called and used throughout the program. Developers are expected to maintain
+separate files for each type of utilitarian method.
+
+Example:
+    
+    The example below is what the contents of this directory are expected to look like.
+    As aforementioned, the developers are expected to write all utilitarian functions 
+    here::
+
+    -> utils
+        # Here, csv.py deals with all functions related to CSV's 
+        # i.e. reading from and writing to CSV files
+        -> csv.py 
+        # Here, csv.py deals with all functions related to text files 
+        # i.e. reading from and writing to .txt files
+        -> text.py
+
+Creators:
+    Names: Ehfaz & Shane
+    Date of last edit: 23/10/2019
+
+"""
