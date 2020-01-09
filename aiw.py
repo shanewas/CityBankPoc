@@ -20,7 +20,7 @@ Creators:
 
 # Imports
 from .src.bots import *
-from .config import MY_ADDRESS,PASSWORD
+from .config import MY_ADDRESS,PASSWORD, BROWSER
 
 # import os
 # os.environ.setdefault("DJANGO_SETTINGS_MODULE", "rpa.settings")
@@ -155,11 +155,11 @@ def start_bot():
     # options.add_argument('--no-sandbox')
     # options.add_argument('--disable-dev-shm-usage')
     # driver = webdriver.Chrome(options=options, executable_path=r'/usr/lib64/chromium/chromedriver')
-    SELENIUM_GRID_URL = "http://selenium-hub:4444/wd/hub"
-    CAPABILITIES = DesiredCapabilities.CHROME.copy()
-    driver = webdriver.Remote(desired_capabilities=CAPABILITIES,
-                            command_executor=SELENIUM_GRID_URL)
-
+    # SELENIUM_GRID_URL = "http://selenium-hub:4444/wd/hub"
+    # CAPABILITIES = DesiredCapabilities.CHROME.copy()
+    # driver = webdriver.Remote(desired_capabilities=CAPABILITIES,
+    #                         command_executor=SELENIUM_GRID_URL)
+    driver = BROWSER
     if login_nid(driver):
         push_data("", "logging in NID", "Successful")
         print('NID LOGGED IN')
@@ -191,11 +191,11 @@ def start_bot():
             # options2.headless = True
             # options2.add_argument('--no-sandbox')
             # options2.add_argument('--disable-dev-shm-usage')
-            SELENIUM_GRID_URL = "http://selenium-hub:4444/wd/hub"
-            CAPABILITIES = DesiredCapabilities.CHROME.copy()
-            driver2 = webdriver.Remote(desired_capabilities=CAPABILITIES,
-                                      command_executor=SELENIUM_GRID_URL)
-
+            # SELENIUM_GRID_URL = "http://selenium-hub:4444/wd/hub"
+            # CAPABILITIES = DesiredCapabilities.CHROME.copy()
+            # driver2 = webdriver.Remote(desired_capabilities=CAPABILITIES,
+            #                           command_executor=SELENIUM_GRID_URL)
+            driver2 = BROWSER
             cib_login(driver2)
             print('CIB LOGGED IN')
             gettinglogs("CIB Login SUCCESS")
