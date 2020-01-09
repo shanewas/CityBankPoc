@@ -61,7 +61,7 @@ class Bot:
     # def onStart(self):
     #     loginToCBS()
     def login_nid(self, driver):
-        self.gettinglogs("Logging in NID website")
+        # self.gettinglogs("Logging in NID website")
         # driver.get(r'file:///C:\Users\Lenovo\Downloads\CITY_BANK_POC\CITY_BANK_POC\Bangladesh_Election_Commission.htm')
         # driver.get(r'file:///rpa/CITY_BANK_POC/Bangladesh_Election_Commission.htm')
         driver.get('https://192.168.249.10/partner/;BVRSPARTNERWEB=xJhbdT4ddrfnPrh5Swvs7Z61p1KWylTyphQl24LfdnjyNvPL4yxh!-1166847401?_adf.ctrl-state=eh4bar95v_1&_afrLoop=29698505854216796&_afrWindowMode=0&_afrWindowId=null')

@@ -28,31 +28,31 @@ from selenium import webdriver
 # Uncomment below block if using remote webdriver
 
 # from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+class config:
+    APP_NAME = 'CIB and NID automation'
+    CLIENT_NAME = 'CBL'
 
-APP_NAME = 'CIB and NID automation'
-CLIENT_NAME = 'CBL'
+    # In case of using local webdriver
+    # WEBDRIVER_PATH = '/usr/lib64/chromium/chromedriver'
+    options = webdriver.ChromeOptions()
+    options.binary_location = 'citybank/chrome/chrome.exe'
+    WEBDRIVER_PATH = 'citybank/chrome/chromedriver.exe'
+    BROWSER = webdriver.Chrome(executable_path=WEBDRIVER_PATH, chrome_options=options)
 
-# In case of using local webdriver
-# WEBDRIVER_PATH = '/usr/lib64/chromium/chromedriver'
-options = webdriver.ChromeOptions()
-options.binary_location = 'citybank/chrome/chrome.exe'
-WEBDRIVER_PATH = 'citybank/chrome/chromedriver.exe'
-BROWSER = webdriver.Chrome(executable_path=WEBDRIVER_PATH, chrome_options=options)
+    # Uncomment below block if using remote webdriver
 
-# Uncomment below block if using remote webdriver
+    # SELENIUM_GRID_URL = "http://198.0.0.1:4444/wd/hub"
+    # CAPABILITIES = DesiredCapabilities.CHROME.copy()
+    # BROWSER = webdriver.Remote(desired_capabilities=CAPABILITIES,
+    #                           command_executor=SELENIUM_GRID_URL)
 
-# SELENIUM_GRID_URL = "http://198.0.0.1:4444/wd/hub"
-# CAPABILITIES = DesiredCapabilities.CHROME.copy()
-# BROWSER = webdriver.Remote(desired_capabilities=CAPABILITIES,
-#                           command_executor=SELENIUM_GRID_URL)
+    # If more browser instances are required, please add below here
+    # Make sure to declare new variable for that instance i.e. BROWSER_TWO = ...
 
-# If more browser instances are required, please add below here
-# Make sure to declare new variable for that instance i.e. BROWSER_TWO = ...
+    AWS_ACCESS_TOKEN = ''
+    NUMBER_OF_ENTRIES = ''
 
-AWS_ACCESS_TOKEN = ''
-NUMBER_OF_ENTRIES = ''
+    LOGGING_SERVER_URL = 'wss://localhost:8765'
 
-LOGGING_SERVER_URL = 'wss://localhost:8765'
-
-MY_ADDRESS = 'rpatesta3@gmail.com'
-PASSWORD = 'rpa@test@1'
+    MY_ADDRESS = 'rpatesta3@gmail.com'
+    PASSWORD = 'rpa@test@1'
