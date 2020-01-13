@@ -28,10 +28,11 @@ Creators:
 
 from ....config import *
 from ....definitions import *
+from ....config import *
 
 def loginToCBS():
 
-    driver = BROWSER
+    driver = config.NID_BROWSER
     driver.get(r'http://cbs.techcomengine.com/Login.html')
 
     try:

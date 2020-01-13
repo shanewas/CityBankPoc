@@ -31,6 +31,8 @@ from selenium.webdriver.common.keys import Keys
 from pathlib import Path
 import requests
 
+# from ....aiw import aiw
+
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -92,7 +94,7 @@ class Bot:
 
     def cib_login(self, driver):
         # gettinglogs("GETTING LOGS!")
-        username, password = 'XGK044824', 'Cbl%10011'
+        username, password = 'XGK044824', 'Cbl%10012'
         # driver.get(r'file:///C:\Users\Lenovo\Downloads\CITY_BANK_POC\CITY_BANK_POC\Bangladesh_Bank_Credit_Information_Bureau_Login.htm')
         # driver.get(r'file:///rpa/CITY_BANK_POC/Bangladesh_Bank_Credit_Information_Bureau_Login.htm')
         driver.get(r'https://cib.bb.org.bd/login')
@@ -140,87 +142,87 @@ class Bot:
         return True
 
     def cib_fill_form(self, driver, row, a_nid):
-        self.gettinglogs("Filling Up CIB Form for " + str(row['nid']))
+        # #self.gettinglogs("Filling Up CIB Form for " + str(row['nid']))
         print('BEFORE FILL UP')
 
 
-        try:
-            el_type_of_financing_l1_1 = driver.find_element_by_xpath(
-                r'//*[@id="individualInquiryForm"]/div[2]/div[2]/div/div/div/button').click()
+        # try:
+        el_type_of_financing_l1_1 = driver.find_element_by_xpath(
+            r'//*[@id="individualInquiryForm"]/div[2]/div[2]/div/div/div/button')
+        driver.execute_script("arguments[0].click();", el_type_of_financing_l1_1)
 
-            type_of_finance = row['type_of_financing_1']
-            driver.find_element_by_link_text(type_of_finance).click()
-            # type_of_finance = row['Type_of_financing']
-            # el_type_of_financing_l1_1.send_keys(type_of_finance)
-            # el_type_of_financing_l1_1.click()
-            self.gettinglogs("Filling Up Type of Financing 1")
+        type_of_finance = row['type_of_financing_1']
+        driver.find_element_by_link_text(type_of_finance).click()
+        bot = Bot('CIB BOT')
+        if bot.check(type_of_finance):
+            # have those four fields
+            # LAYER TWO::Installment Data
+            try:
+                el_number_of_installment_l2 = driver.find_element_by_xpath(
+                    r'//*[@id="individualInquiryForm"]/div[3]/div[1]/div[2]/div/div/input')
+                el_number_of_installment_l2.clear()
+                noOfStatement = row['no_of_installment']
+                el_number_of_installment_l2.send_keys(noOfStatement)
+                # driver.execute_script("arguments[0].click();", el_male_l3)
+                # el_number_of_installment_l2.send_keys('hello')
+                # el_number_of_installment_l2.send_keys(row['Number_Of_Installment'])
+                #self.gettinglogs("Filling Up No of Installment")
+            except Exception as ex:
+                print("No of Installment")
+                # gettinglogs("Exception in No of Installment")
+                # print(ex)
 
-            if self.check(type_of_finance):
-                # have those four fields
-                # LAYER TWO::Installment Data
-                try:
-                    el_number_of_installment_l2 = driver.find_element_by_xpath(
-                        r'//*[@id="individualInquiryForm"]/div[3]/div[1]/div[2]/div/div/input')
-                    el_number_of_installment_l2.clear()
-                    el_number_of_installment_l2.send_keys(row['no_of_installment'])
-                    # el_number_of_installment_l2.send_keys(row['Number_Of_Installment'])
-                    self.gettinglogs("Filling Up No of Installment")
-                except Exception as ex:
-                    print("No of Installment")
-                    # gettinglogs("Exception in No of Installment")
-                    # print(ex)
-
-                installment_amount = row['installment_amount']
-                print('Installment Amount: '+str(installment_amount))
-                # el_installment_amount_l2 = driver.find_element_by_css_selector('#individualInquiryForm > div.install_form > div:nth-child(1) > div.col-sm-8 > div > div > input')
-                el_installment_amount_l2 = driver.find_element_by_xpath(r'//*[@id="individualInquiryForm"]/div[3]/div[1]/div[3]/div/div/input')
-                el_installment_amount_l2.clear()
-                el_installment_amount_l2.send_keys(str(int(installment_amount)))
-                self.gettinglogs("Filling Up Installment Amount")
-
-
-                try:
-                    el_total_requested_amount_l2 = driver.find_element_by_xpath(
-                        r'//*[@id="individualInquiryForm"]/div[3]/div[2]/div[1]/div/div/input')
-                    el_total_requested_amount_l2.clear()
-                    # el_total_requested_amount_l2.send_keys(row['Total_requested_amount'])
-                    el_total_requested_amount_l2.send_keys(row['total_request_amount'])
-                    self.gettinglogs("Filling Up Total Requested Amount")
-                except Exception as ex:
-                    print("Requested Amount")
+            installment_amount = row['installment_amount']
+            print('Installment Amount: '+str(installment_amount))
+            # el_installment_amount_l2 = driver.find_element_by_css_selector('#individualInquiryForm > div.install_form > div:nth-child(1) > div.col-sm-8 > div > div > input')
+            el_installment_amount_l2 = driver.find_element_by_xpath(r'//*[@id="individualInquiryForm"]/div[3]/div[1]/div[3]/div/div/input')
+            el_installment_amount_l2.clear()
+            el_installment_amount_l2.send_keys(str(int(installment_amount)))
+            #self.gettinglogs("Filling Up Installment Amount")
 
 
-                try:
-                    el_periodicity_of_payment_l2_1 = driver.find_element_by_xpath(
-                        r'//*[@id="individualInquiryForm"]/div[3]/div[2]/div[2]/div/div/div/button').click()
+            try:
+                el_total_requested_amount_l2 = driver.find_element_by_xpath(
+                    r'//*[@id="individualInquiryForm"]/div[3]/div[2]/div[1]/div/div/input')
+                el_total_requested_amount_l2.clear()
+                # el_total_requested_amount_l2.send_keys(row['Total_requested_amount'])
+                el_total_requested_amount_l2.send_keys(row['total_request_amount'])
+                #self.gettinglogs("Filling Up Total Requested Amount")
+            except Exception as ex:
+                print("Requested Amount")
 
-                    # el_periodicity_of_payment_l2_1.send_keys(row['periodicity_of_payment_1'])
-                    driver.find_element_by_link_text(row['periodicity_of_payment_1']).click()
-                    # driver.find_element_by_link_text(type_of_finance).click()
-                    # el_periodicity_of_payment_l2_1.send_keys(row['Periodicity_of_payment'])
-                    # time.sleep(1)
-                    el_periodicity_of_payment_l2_1.click()
-                    self.gettinglogs("Filling Up Periodicity of Payment 1")
-                except Exception as ex:
-                    print("Periodicity of Payment 1")
 
-            else:
-                # have credit limits only
-                # LAYER TWO::Installment Data :: credit limits
-                try:
-                    el_credit_limit_l2 = driver.find_element_by_xpath(
-                        r'//*[@id="individualInquiryForm"]/div[4]/div/div[2]/div/div/input')
-                    el_credit_limit_l2.clear()
-                    # el_credit_limit_l2.send_keys(row['credit_limit'])
-                    el_credit_limit_l2.send_keys(row['Credit_Limit'])
-                    self.gettinglogs("Filling Up Credit Limit")
-                except Exception as ex:
-                    print("Credit Limit")
-                    self.gettinglogs("Exception in Credit Limit Exception")
-                    # print(ex)
+            try:
+                el_periodicity_of_payment_l2_1 = driver.find_element_by_xpath(
+                    r'//*[@id="individualInquiryForm"]/div[3]/div[2]/div[2]/div/div/div/button').click()
 
-        except Exception as ex:
-            print("Type of Finance 1")
+                # el_periodicity_of_payment_l2_1.send_keys(row['periodicity_of_payment_1'])
+                driver.find_element_by_link_text(row['periodicity_of_payment_1']).click()
+                # driver.find_element_by_link_text(type_of_finance).click()
+                # el_periodicity_of_payment_l2_1.send_keys(row['Periodicity_of_payment'])
+                # time.sleep(1)
+                el_periodicity_of_payment_l2_1.click()
+                #self.gettinglogs("Filling Up Periodicity of Payment 1")
+            except Exception as ex:
+                print("Periodicity of Payment 1")
+
+        else:
+            # have credit limits only
+            # LAYER TWO::Installment Data :: credit limits
+            try:
+                el_credit_limit_l2 = driver.find_element_by_xpath(
+                    r'//*[@id="individualInquiryForm"]/div[4]/div/div[2]/div/div/input')
+                el_credit_limit_l2.clear()
+                # el_credit_limit_l2.send_keys(row['credit_limit'])
+                el_credit_limit_l2.send_keys(row['Credit_Limit'])
+                #self.gettinglogs("Filling Up Credit Limit")
+            except Exception as ex:
+                print("Credit Limit")
+                #self.gettinglogs("Exception in Credit Limit Exception")
+                # print(ex)
+
+        # except Exception as ex:
+        #     print("Type of Finance 1")
         el_nid_l3 = driver.find_element_by_xpath(r'//*[@id="individualInquiryForm"]/div[11]/div[1]/div/div/input')
         el_nid_l3.clear()
         el_date_of_birth_l3 = driver.find_element_by_xpath(r'//*[@id="datetimepicker-ind"]/input')
@@ -269,18 +271,19 @@ class Bot:
         nid = a_nid
 
         el_nid_l3.send_keys(nid)
-        self.gettinglogs("Filling up NID")
+        # #self.gettinglogs("Filling up NID")
         hold = self.format_dob(row['date_of_birth'])
-        el_date_of_birth_l3.send_keys(self.format_date(hold))
-        self.gettinglogs("Filling up Date of Birth")
+        # el_date_of_birth_l3.send_keys(self.format_date(hold))
+        el_date_of_birth_l3.send_keys(hold)
+        # #self.gettinglogs("Filling up Date of Birth")
         el_district_of_birth_l3.send_keys(row['district_of_birthl1'])
-        self.gettinglogs("Filling up Distric of Birth")
+        # #self.gettinglogs("Filling up Distric of Birth")
         el_name_l3.send_keys(row['full_name'])
-        self.gettinglogs("Filling up Full Name")
+        # #self.gettinglogs("Filling up Full Name")
         el_fathers_name_l3.send_keys(row['father_name'])
-        self.gettinglogs("Filling up Father's Name")
+        # #self.gettinglogs("Filling up Father's Name")
         el_mothers_name_l3.send_keys(row['mother_name'])
-        self.gettinglogs("Filling up Mother's Name")
+        # #self.gettinglogs("Filling up Mother's Name")
 
         try:
             gender = row['gender']
@@ -289,47 +292,47 @@ class Bot:
             if gender == 'Male':
                 # el_male_l3.click()
                 driver.execute_script("arguments[0].click();", el_male_l3)
-                self.gettinglogs("Filling up Gender: Male")
+                #self.gettinglogs("Filling up Gender: Male")
                 # print('Male')
             elif gender == 'Female':
                 # el_female_l3.click()
                 driver.execute_script("arguments[0].click();", el_female_l3)
                 # print('Female')
-                self.gettinglogs("Filling up Gender: Female")
+                # #self.gettinglogs("Filling up Gender: Female")
         except Exception as ex:
-            self.gettinglogs("Exception in Gender")
+            # #self.gettinglogs("Exception in Gender")
             print(ex)
 
         # el_country_of_birth_l3_1.send_keys(row['country_of_birthl2'].upper())
         el_country_of_birth_l3_1.click()
         driver.find_element_by_link_text(row['country_of_birthl2'].upper()).click()
-        self.gettinglogs("Filling up Country of Birth 1")
+        #self.gettinglogs("Filling up Country of Birth 1")
         # el_country_of_birth_l3_1.click()
         # el_country_of_birth_l3_2.send_keys(row['country_of_birthl2'].upper())
-        self.gettinglogs("Filling up Country of Birth 2")
+        ##self.gettinglogs("Filling up Country of Birth 2")
         # el_country_of_birth_l3_2.click()
 
         el_district_l4.send_keys(row['districtl2'])
-        self.gettinglogs("Filling up District")
+        #self.gettinglogs("Filling up District")
         el_street_name_and_number_l4.send_keys(row['street_name_and_numberl2'])
-        self.gettinglogs("Filling up Street Name and Number")
+        #self.gettinglogs("Filling up Street Name and Number")
         el_postal_code_l4.send_keys(row['postal_code'])
-        self.gettinglogs("Filling up Postal Code")
+        #self.gettinglogs("Filling up Postal Code")
         # el_country_l4_1.send_keys(row['country_of_birthll3'].upper())
         el_country_l4_1.click()
         driver.find_element_by_link_text(row['country_of_birthl2'].upper()).click()
-        self.gettinglogs("Filling up Country of Birth 3")
+        #self.gettinglogs("Filling up Country of Birth 3")
 
 
         sector_type = row['sector_type']
 
         if sector_type == 'public':
             driver.execute_script("arguments[0].click();", el_sector_type_public_l7)
-            self.gettinglogs("Filling up Sector Type: Public")
+            #self.gettinglogs("Filling up Sector Type: Public")
         else:
             # el_sector_type_private_l7.click()
             driver.execute_script("arguments[0].click();", el_sector_type_private_l7)
-            self.gettinglogs("Filling up Sector Type: Private")
+            #self.gettinglogs("Filling up Sector Type: Private")
 
 
         from selenium.webdriver.support.ui import Select
@@ -342,16 +345,16 @@ class Bot:
 
         if contract_history == 12:
             driver.execute_script("arguments[0].click();", el_contract_history_12_l8)
-            self.gettinglogs("Filling up Contract History: 12")
+            #self.gettinglogs("Filling up Contract History: 12")
         elif contract_history == 24:
             driver.execute_script("arguments[0].click();", el_contract_history_24_l8)
 
-            self.gettinglogs("Filling up Contract History: 24")
+            #self.gettinglogs("Filling up Contract History: 24")
 
 
         time.sleep(1)
         print('CIB FORM END')
-        self.gettinglogs("Form Fill Completed for NID:"+str(row['nid']))
+        #self.gettinglogs("Form Fill Completed for NID:"+str(row['nid']))
         # el_new_person_inquiry.click()
         driver.execute_script("arguments[0].click();", el_new_person_inquiry)
         try:
@@ -373,10 +376,11 @@ class Bot:
         # driver.save_screenshot("docker/Downloads{}.png".format(img_name))
 
 
-        filename = Path("storage/output/docker/{}.pdf".format(img_name))
+        filename = Path("PDFstorage\{}.pdf".format(img_name))
         url = driver.find_element_by_xpath("/html/body/div[2]/div[2]/div[1]/a").get_attribute("href")
         response = requests.get(url)
         filename.write_bytes(response.content)
 
-
-        driver.get("https://cib.bb.org.bd/new_inquiry")
+        # driver.close()
+        # driver.get("https://cib.bb.org.bd/new_inquiry")
+        # aiw.cib_loop()

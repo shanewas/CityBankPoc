@@ -37,7 +37,8 @@ class config:
     options = webdriver.ChromeOptions()
     options.binary_location = 'citybank/chrome/chrome.exe'
     WEBDRIVER_PATH = 'citybank/chrome/chromedriver.exe'
-    BROWSER = webdriver.Chrome(executable_path=WEBDRIVER_PATH, chrome_options=options)
+    CIB_BROWSER = webdriver.Chrome(executable_path=WEBDRIVER_PATH, chrome_options=options)
+    NID_BROWSER = webdriver.Chrome(executable_path=WEBDRIVER_PATH, chrome_options=options)
 
     # Uncomment below block if using remote webdriver
 

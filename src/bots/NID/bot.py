@@ -104,10 +104,9 @@ class Bot:
             # gettinglogs("NID Data found for: " + str(nid_data))
             # time.sleep(1)
 
-            image = driver.find_element_by_xpath(
-                r'/html/body/div/form/div/div[2]/div/div/div/div/div/div[3]/div/div[1]/div/div[2]/table/tbody/tr/td[4]/div/div[1]/div/div[5]/table/tbody/tr/td/div/div/table/tbody/tr/td[2]/div/div/div/div[2]/img')
+            image = driver.find_element_by_xpath( r'//*[@id="pt1:i5"]')
             image = image.get_attribute("src")
-            self.gettinglogs("NID Data found for: " + str(nid_data))
+            # self.gettinglogs("NID Data found for: " + str(nid_data))
 
             # image = 'https://192.168.249.10' + image
             # print(image)
@@ -119,7 +118,7 @@ class Bot:
             # print("after" + image)
             # image = image[26:]
             # dirname = os.path.dirname(__file__)
-
+            # ptr.pytessaract.tessaract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
             # image = os.path.join(dirname, 'NIDS/NID1/Bangladesh_Election_Commission_files/19939111777000259_voterInfo.jpg')
             # image = os.path.join(dirname, image)
             options = webdriver.ChromeOptions()
@@ -133,7 +132,9 @@ class Bot:
             driver.save_screenshot("nid_images/{}.png".format(img_name))
             image = r"nid_images/{}.png".format(img_name)
             # nid_data = ptr.image_to_string(Image.open(image, 'r'))
+            # ptr.pytessaract.tessaract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
             nid_data = ptr.image_to_string(Image.open(image, 'r'))
+            print(nid_data)
 
             # import os
             # path1 = os.path.normpath("file:///C:/Users/vendor/Downloads/rpa/CITY_BANK_POC/NIDS/NID1/Bangladesh_Election_Commission_files/19939111777000259_voterInfo.jpg")
@@ -161,7 +162,7 @@ class Bot:
             name, gender, dob, nid = '', '', '', ''
             for row in lines:
                 if ':' in row:
-                    # print(row)
+                    print(row)
                     if 'Name' in row:
                         name = row.split(':')[1]
                     elif 'Gender' in row:
@@ -180,16 +181,18 @@ class Bot:
             print(nid)
             return nid, name, dob
 
-        # // *[ @ id = "pt1:it1::conte
-        #
-        #
-        # login_nid(driver)
-        # get_nid_detail(driver, 19948118213000186, "1994/12/25")
+            # // *[ @ id = "pt1:it1::conte
+            #
+            #
+            # login_nid(driver)
+            # get_nid_detail(driver, 19948118213000186, "1994/12/25")
 
-        # return get_nid, get_name, get_dob
+            # return get_nid, get_name, get_dob
 
         except Exception as ex:
-            self.gettinglogs("NID: " + str(nid_data) + " Not Found!")
+            # self.gettinglogs("NID: " + str(nid_data) + " Not Found!")
             # raise ex
+            print('auntyyyyyyyyyyyyyyyyyyyyyyyyy')
+            print(ex)
             return nid_data, "not found", dob
 

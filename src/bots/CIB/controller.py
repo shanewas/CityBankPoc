@@ -28,12 +28,13 @@ Creators:
 
 from ....config import *
 from ....definitions import *
+from ....config import *
 
 from datetime import datetime
 
 def loginToCBS():
 
-    driver = BROWSER
+    driver = config.CIB_BROWSER
     driver.get(r'http://cbs.techcomengine.com/Login.html')
 
     try:

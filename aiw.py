@@ -78,7 +78,7 @@ class aiw():
             s = smtplib.SMTP('smtp.gmail.com:587')
             s.ehlo()
             s.starttls()
-            s.login(conf.MY_ADDRESS, conf.PASSWORD)
+            s.login(config.MY_ADDRESS, config.PASSWORD)
 
             # msg = MIMEMultipart()
             subject = 'NID and/or Date of Birth Exception'
@@ -88,7 +88,7 @@ class aiw():
 
             text = "NID: {} and/or Date of Birth: {} Did Not Match".format(nid, dob)
             message = 'Subject: {}\n\n{}'.format(subject, text)
-            s.sendmail(conf.MY_ADDRESS, email, message)
+            s.sendmail(config.MY_ADDRESS, email, message)
             # msg.attach(MIMEText(message, 'plain'))
             # s.send_message(msg)
             s.quit()
@@ -128,10 +128,10 @@ class aiw():
 
     def format_dob(self, dob):
         # 25 Jul 1965 to 1965/07/25
-        day, month, year = dob.split(' ')
+        day, month, year = dob.split('/')
         # if '.' or ',' in month:
         #     month = month[:-1]
-        # month_num = 1
+        month_num = 1
         day = str(day)
 
         for key, value in self.month_conv.items():
@@ -146,8 +146,61 @@ class aiw():
         return new_dob
 
     # driver = webdriver.Chrome(ChromeDriverManager().install())
-    driver = config()
-    driver2 = config()
+    # driver = config()
+    # driver2 = config()
+    def cib_loop(self):
+        for index, row in self.data.iterrows():
+            nid = row['nid']
+            print('NID: ', nid)
+            # dob = format_date(row['date_of_birth'])
+            dob = row['date_of_birth']
+            # if nid_logged_in:
+            #     driver.get(r'/Users/macboookpro/Desktop/test/CITY_BANK_POC/Bangladesh_Election_Commission.htm')
+            a_nid, a_name, a_dob = bota.get_nid_detail(self, config.NID_BROWSER, nid, dob)
+            if a_name == "not found":
+                print('NOT FOUND')
+                continue
+
+            # push_data(nid, "Get NID detail", "Successful")
+
+            # if not flag:
+                # driver2 = webdriver.Chrome(ChromeDriverManager().install())
+
+                # options2 = Options()
+                # options2.headless = True
+                # options2.add_argument('--no-sandbox')
+                # options2.add_argument('--disable-dev-shm-usage')
+                # SELENIUM_GRID_URL = "http://selenium-hub:4444/wd/hub"
+                # CAPABILITIES = DesiredCapabilities.CHROME.copy()
+                # driver2 = webdriver.Remote(desired_capabilities=CAPABILITIES,
+                #                           command_executor=SELENIUM_GRID_URL)
+
+            #bota.gettinglogs("CIB Login SUCCESS")
+                # flag = True
+            # push_data(nid, "logging in CIB", "Successful")
+
+            a_dob = self.format_dob(dob)
+            # a_dob = format_date(a_dob)
+
+            print(dob, a_dob)
+            name = row['full_name']
+            print("nid data: " + a_name.lower())
+            print("csv data: " + name.lower())
+
+            if a_name.lower() == name.lower():
+                # self.push_data(nid, "NID Data Matched", "Successful")
+                #bota.gettinglogs("NID Data Matched Successfully")
+                # and dob == format_date(a_dob):
+                botb.cib_fill_form(self, config.CIB_BROWSER, row, a_nid)
+                # push_data(nid, "CIB Form Fill Up", "Successful")
+                print('CIB FORM FILLED UP')
+                config.CIB_BROWSER.get("https://cib.bb.org.bd/new_inquiry")
+            else:
+                # push_data(nid, "NID Data Matched", "Failed")
+                #bota.gettinglogs("Mismatch Name and/or Date Of Birth!")
+                email = 'rpatesta3@gmail.com'
+                # self.send_mail(email, nid, dob)
+                print('Mismatch Name and/or Date Of Birth!')
 
     def start_bot(self):
         # driver = webdriver.Chrome(ChromeDriverManager().install())
@@ -162,7 +215,7 @@ class aiw():
         # driver = webdriver.Remote(desired_capabilities=CAPABILITIES,
         #                         command_executor=SELENIUM_GRID_URL)
 
-        if bota.login_nid(self, self.driver.BROWSER):
+        if bota.login_nid(self, config.NID_BROWSER):
             # push_data("", "logging in NID", "Successful")
             print('NID LOGGED IN')
             nid_logged_in = True
@@ -172,59 +225,13 @@ class aiw():
         #    # push_data("", "logging in NID", "Failed")
 
         flag = False
+        botb.cib_login(self, config.CIB_BROWSER)
+        print('CIB LOGGED IN')
+        self.cib_loop()
 
-        for index, row in self.data.iterrows():
-            nid = row['nid']
-            print('NID: ', nid)
-            # dob = format_date(row['date_of_birth'])
-            dob = row['date_of_birth']
-            # if nid_logged_in:
-            #     driver.get(r'/Users/macboookpro/Desktop/test/CITY_BANK_POC/Bangladesh_Election_Commission.htm')
-            a_nid, a_name, a_dob = bota.get_nid_detail(self, self.driver, nid, dob)
-            if a_name == "not found":
-                continue
+            #bota.gettinglogs("Job Done!")
+            # config.CIB_BROWSER.get("https://cib.bb.org.bd/new_inquiry")
 
-            # push_data(nid, "Get NID detail", "Successful")
-
-            if not flag:
-                # driver2 = webdriver.Chrome(ChromeDriverManager().install())
-
-                # options2 = Options()
-                # options2.headless = True
-                # options2.add_argument('--no-sandbox')
-                # options2.add_argument('--disable-dev-shm-usage')
-                # SELENIUM_GRID_URL = "http://selenium-hub:4444/wd/hub"
-                # CAPABILITIES = DesiredCapabilities.CHROME.copy()
-                # driver2 = webdriver.Remote(desired_capabilities=CAPABILITIES,
-                #                           command_executor=SELENIUM_GRID_URL)
-                botb.cib_login(self.driver2)
-                print('CIB LOGGED IN')
-                #bota.gettinglogs("CIB Login SUCCESS")
-                flag = True
-            # push_data(nid, "logging in CIB", "Successful")
-
-            a_dob = self.format_dob()
-            # a_dob = format_date(a_dob)
-
-            print(dob, a_dob)
-            name = row['full_name']
-            print("nid data: " + a_name.lower())
-            print("csv data: " + name.lower())
-
-            if a_name.lower() == name.lower():
-                # self.push_data(nid, "NID Data Matched", "Successful")
-                #bota.gettinglogs("NID Data Matched Successfully")
-                # and dob == format_date(a_dob):
-                bota.cib_fill_form(self.driver2, row, a_nid)
-                # push_data(nid, "CIB Form Fill Up", "Successful")
-                print('CIB FORM FILLED UP')
-            else:
-                # push_data(nid, "NID Data Matched", "Failed")
-                #bota.gettinglogs("Mismatch Name and/or Date Of Birth!")
-                email = 'rpatesta3@gmail.com'
-                # self.send_mail(email, nid, dob)
-                print('Mismatch Name and/or Date Of Birth!')
-        #bota.gettinglogs("Job Done!")
 
 
 if __name__ == "__main__":
