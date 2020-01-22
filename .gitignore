@@ -1,6 +1,8 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 chrome/
+build/
+dist/
 *.py[cod]
 *$py.class
 
